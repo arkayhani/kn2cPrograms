@@ -34,6 +34,7 @@ struct RobotSpeed
     float VX;
     float VY;
     float VW;
+    float dir;
 };
 
 struct MotorSpeed

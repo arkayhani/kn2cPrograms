@@ -35,7 +35,7 @@ ControllerResult Controller::calc(ControllerInput &ci)
 
     ctrlresult.rs = calcRobotSpeed_main(ci);
     //ctrlresult.rs = calcRobotSpeed_adjt(ci);
-   // ctrlresult.rs = calcRobotSpeed_test(ci);
+    //ctrlresult.rs = calcRobotSpeed_test(ci);
 
     ctrlresult.msR = calcReal(ctrlresult.rs);
     ctrlresult.msS = calcSimul(ctrlresult.rs);
@@ -123,9 +123,12 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     out << err1.y <<" "<< LinearSpeed.x <<" "<< LinearSpeed.y << endl;
     //cout<<LinearSpeed.x<<" "<<err1.x<<" "<<integral.x<<" "<<time<<endl;
     Vector2D RotLinearSpeed=LinearSpeed;
-    RotLinearSpeed.x = LinearSpeed.x * cos(ci.cur_pos.dir) + LinearSpeed.y * sin(ci.cur_pos.dir);
-    RotLinearSpeed.y = -LinearSpeed.x * sin(ci.cur_pos.dir) + LinearSpeed.y * cos(ci.cur_pos.dir);
 
+
+    //$ commented for wheel speed calculating in robots
+    //RotLinearSpeed.x = LinearSpeed.x * cos(ci.cur_pos.dir) + LinearSpeed.y * sin(ci.cur_pos.dir);
+    //RotLinearSpeed.y = -LinearSpeed.x * sin(ci.cur_pos.dir) + LinearSpeed.y * cos(ci.cur_pos.dir);
+    // $
     /*************************************Rotation ctrl**********************/
     double wkp,wki,wkd,wu1;
     double MAXROTATIONSPEED = 2.5,RotationSpeed;
@@ -186,9 +189,10 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     //    }
     RobotSpeed ans;
 
-    ans.VX = RotLinearSpeed.x;
-    ans.VY = RotLinearSpeed.y;
+    ans.VX = LinearSpeed.x;RotLinearSpeed.x;
+    ans.VY = LinearSpeed.y;RotLinearSpeed.y;
     ans.VW = RotationSpeed;
+    ans.dir = ci.cur_pos.dir;
 
     return ans;
 }
@@ -383,49 +387,49 @@ RobotSpeed Controller::calcRobotSpeed_test(ControllerInput &ci)
 
 MotorSpeed Controller::calcReal(RobotSpeed rs)
 {
-    double motor[4][1],rotate[4][3],speed[3][1];
+//    double motor[4][1],rotate[4][3],speed[3][1];
 
-    speed[0][0] = -rs.VX;
-    speed[1][0] = -rs.VY;
-    speed[2][0] = -rs.VW;
+//    speed[0][0] = -rs.VX;
+//    speed[1][0] = -rs.VY;
+//    speed[2][0] = -rs.VW;
 
-    rotate[0][0] =  cos( 0.18716 * M_PI);//cos(M_PI /4.0);//-sin(rangle + M_PI);//7/4
-    rotate[1][0] =  sin( M_PI / 4.0 );//-cos(0.22 * M_PI);//-sin(rangle - M_PI / 3);//0.218
-    rotate[2][0] =  -cos( M_PI / 4.0 );//-sin(0.22 * M_PI);//-sin(rangle + M_PI / 3);//0.78
-    rotate[3][0] =  -cos( 0.18716 * M_PI);//cos(M_PI /4.0);//-sin(rangle + M_PI);//5/4
-    rotate[0][1] =  -sin(0.18716 * M_PI );//cos(M_PI /4.0);//cos(rangle + M_PI);//7/4
-    rotate[1][1] = cos(M_PI / 4.0 );//- sin(0.22 * M_PI);// cos(rangle - M_PI / 3);//0.218
-    rotate[2][1] = sin(M_PI / 4.0);//cos(0.22 * M_PI);//cos(rangle + M_PI / 3);//0.187
-    rotate[3][1] = -sin(0.18716 * M_PI);//-cos(M_PI /4.0);//cos(rangle + M_PI);//5/4
+//    rotate[0][0] =  cos( 0.18716 * M_PI);//cos(M_PI /4.0);//-sin(rangle + M_PI);//7/4
+//    rotate[1][0] =  sin( M_PI / 4.0 );//-cos(0.22 * M_PI);//-sin(rangle - M_PI / 3);//0.218
+//    rotate[2][0] =  -cos( M_PI / 4.0 );//-sin(0.22 * M_PI);//-sin(rangle + M_PI / 3);//0.78
+//    rotate[3][0] =  -cos( 0.18716 * M_PI);//cos(M_PI /4.0);//-sin(rangle + M_PI);//5/4
+//    rotate[0][1] =  -sin(0.18716 * M_PI );//cos(M_PI /4.0);//cos(rangle + M_PI);//7/4
+//    rotate[1][1] = cos(M_PI / 4.0 );//- sin(0.22 * M_PI);// cos(rangle - M_PI / 3);//0.218
+//    rotate[2][1] = sin(M_PI / 4.0);//cos(0.22 * M_PI);//cos(rangle + M_PI / 3);//0.187
+//    rotate[3][1] = -sin(0.18716 * M_PI);//-cos(M_PI /4.0);//cos(rangle + M_PI);//5/4
 
-    rotate[0][2] = -ROBOTRADIUS;
-    rotate[1][2] = -ROBOTRADIUS;
-    rotate[2][2] = -ROBOTRADIUS;
-    rotate[3][2] = -ROBOTRADIUS;
+//    rotate[0][2] = -ROBOTRADIUS;
+//    rotate[1][2] = -ROBOTRADIUS;
+//    rotate[2][2] = -ROBOTRADIUS;
+//    rotate[3][2] = -ROBOTRADIUS;
 
-    motor[0][0] = (rotate[0][0] * speed[0][0] + rotate[0][1] * speed[1][0] + rotate[0][2] * speed[2][0])*SpeedToRPM;
-    motor[1][0] = (rotate[1][0] * speed[0][0] + rotate[1][1] * speed[1][0] + rotate[1][2] * speed[2][0])*SpeedToRPM;
-    motor[2][0] = (rotate[2][0] * speed[0][0] + rotate[2][1] * speed[1][0] + rotate[2][2] * speed[2][0])*SpeedToRPM;
-    motor[3][0] = (rotate[3][0] * speed[0][0] + rotate[3][1] * speed[1][0] + rotate[3][2] * speed[2][0])*SpeedToRPM;
+//    motor[0][0] = (rotate[0][0] * speed[0][0] + rotate[0][1] * speed[1][0] + rotate[0][2] * speed[2][0])*SpeedToRPM;
+//    motor[1][0] = (rotate[1][0] * speed[0][0] + rotate[1][1] * speed[1][0] + rotate[1][2] * speed[2][0])*SpeedToRPM;
+//    motor[2][0] = (rotate[2][0] * speed[0][0] + rotate[2][1] * speed[1][0] + rotate[2][2] * speed[2][0])*SpeedToRPM;
+//    motor[3][0] = (rotate[3][0] * speed[0][0] + rotate[3][1] * speed[1][0] + rotate[3][2] * speed[2][0])*SpeedToRPM;
 
-    //double MaxMotorSpeed = 3.47;//MAXMOTORSRPM * M_PI * WHEELDIAMETER / 60000;
+//    //double MaxMotorSpeed = 3.47;//MAXMOTORSRPM * M_PI * WHEELDIAMETER / 60000;
 
     MotorSpeed result;
 
-    result.M0 = (motor[0][0]);
-    result.M1 = (motor[1][0]);
-    result.M2 = (motor[2][0]);
-    result.M3 = (motor[3][0]);
+    result.M0 = rs.VX*10000;
+    result.M1 = rs.VY*10000;
+    result.M2 = rs.VY*10000;
+    result.M3 = rs.dir*10000;
 
-    //    double max = max4(fabs(result.M0),fabs(result.M1),fabs(result.M2),fabs(result.M3));
+//    //    double max = max4(fabs(result.M0),fabs(result.M1),fabs(result.M2),fabs(result.M3));
 
-    //    if(max > 127)
-    //    {
-    //        result.M0 = (int)((result.M0 * 127.0)/max);
-    //        result.M1 = (int)((result.M1 * 127.0)/max);
-    //        result.M2 = (int)((result.M2 * 127.0)/max);
-    //        result.M3 = (int)((result.M3 * 127.0)/max);
-    //    }
+//    //    if(max > 127)
+//    //    {
+//    //        result.M0 = (int)((result.M0 * 127.0)/max);
+//    //        result.M1 = (int)((result.M1 * 127.0)/max);
+//    //        result.M2 = (int)((result.M2 * 127.0)/max);
+//    //        result.M3 = (int)((result.M3 * 127.0)/max);
+//    //    }
 
     return result;
 }
@@ -434,8 +438,8 @@ MotorSpeed Controller::calcSimul(RobotSpeed rs)
 {
     double motor[4][1],rotate[4][3],speed[3][1];
 
-    speed[0][0] = rs.VX;
-    speed[1][0] = rs.VY;
+    speed[0][0] = rs.VX * cos(rs.dir) + rs.VY * sin(rs.dir);
+    speed[1][0] = -rs.VX * sin(rs.dir) + rs.VY * cos(rs.dir);
     speed[2][0] = rs.VW;
 
     rotate[0][0] = sin(M_PI / 3);//-sin(rangle - M_PI / 3);
