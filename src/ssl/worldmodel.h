@@ -28,6 +28,8 @@ public:
     int ref_goalie_opp;
     bool isSim;
     Knowledge *kn;
+    QList<Vector2D> navigation_pos;
+    QList<Vector2D> navigation_res;
 
     static double var[10];
     // 0: kick activation dist

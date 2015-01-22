@@ -15,7 +15,7 @@ public:
 private:
     TacticTest* tPasser;
     TacticAttacker* tAttacker;
-    TacticTestFriction* tTT;
+    TacticTestKickPrecision* tTT;
     TacticDefender* tDefenderLeft;
     TacticDefender* tDefenderRight;
     TacticHalt* tHalt;

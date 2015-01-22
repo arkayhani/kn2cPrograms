@@ -14,17 +14,17 @@ PlayStop::PlayStop(WorldModel *worldmodel, QObject *parent) :
     tStopMid=new TacticStop(wm);
     tStopLeft=new TacticStop(wm);
     tStopRight=new TacticStop(wm);
+            qDebug() << "SolutionNext" << wm->ourRobot[3].pos.loc.x << wm->ourRobot[3].pos.loc.y;
 }
 
 int PlayStop::enterCondition()
 {
-    if(wm->gs == STATE_Stop)
-        return 100;
-    else if(wm->cmgs.canMove() && wm->cmgs.gameOn()==false && wm->cmgs.allowedNearBall()==false)
-        return 10;
-    else
-        return 0;
-//        return 20000;
+//    if(wm->gs == STATE_Stop)
+//        return 100;
+//    else if(wm->cmgs.canMove() && wm->cmgs.gameOn()==false && wm->cmgs.allowedNearBall()==false)
+//        return 10;
+//    else
+        return 2000000;
 }
 
 void PlayStop::initRole()

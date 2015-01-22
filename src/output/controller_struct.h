@@ -14,6 +14,7 @@ using namespace std;
 
 struct ControllerInput
 {
+    int id;
     Position cur_pos;
     Position cur_vel;
 

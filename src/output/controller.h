@@ -30,6 +30,7 @@ private:
     Vector2D u1;
     Vector2D derived0,derived1;
     Vector2D integral;
+    Vector2D robot_speed[12];
 
     double wu1,wintegral,werr0,werr1;
     double wderived0,wderived1;

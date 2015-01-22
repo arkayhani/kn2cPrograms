@@ -28,7 +28,6 @@ int PlayGameOn::enterCondition()
     else
         return 0;
 
-    return 0;
 }
 
 void PlayGameOn::setTactics(int index)

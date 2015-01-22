@@ -12,9 +12,13 @@ public:
     void setDefenderPos(int pos);
 
 private:
+    QTime timer;
     Vector2D GotoDefaultLoc(int total, int current);
     int numberOfDefenders;
+    double alfa=0;
     int position;
+    int time;
+    int flag;
 };
 
 #endif // TACTICDEFENDER_H

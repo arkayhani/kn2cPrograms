@@ -20,6 +20,7 @@ public:
 private:
     bool canKick;
     bool firstKick;
+    double alfa;
     QTimer *timer;
     bool isFree(int index);
 private slots:

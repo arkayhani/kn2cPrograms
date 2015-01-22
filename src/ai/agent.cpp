@@ -31,14 +31,27 @@ void Agent::SendCommand(RobotCommand rc)
 
     ControllerInput ci = nav.calc(rc);
     ControllerResult co = ctrl.calc(ci);
+        //qDebug() << "loc " << wm->ourRobot[3].pos.loc.x << wm->ourRobot[3].pos.loc.y<< "floc" << rc.fin_pos.loc.x << rc.fin_pos.loc.y;
+
+//    if(id==3)
+//    {
+//       qDebug() << "ploc" << "X:"<<rc.fin_pos.loc.x << "Y"<<rc.fin_pos.loc.y;
+//       qDebug() << "floc" << "X:"<<wm->ourRobot[3].pos.loc.x << "Y"<<wm->ourRobot[3].pos.loc.y;
+
+//    }
+
 
     // Real Game Packet
     RobotData reRD;
+    //@kamin
     reRD.RID = id;
-    reRD.M0  = co.msR.M0;
+    reRD.M0  = co.msR.M0;wm->ourRobot[id].vel.loc.x;
     reRD.M1  = co.msR.M1;
-    reRD.M2  = co.msR.M2;
-    reRD.M3  = co.msR.M3;
+    reRD.M2  = co.msR.M2;1000*(-wm->ourRobot[id].vel.loc.x * sin(ci.cur_pos.dir) + wm->ourRobot[id].vel.loc.y * cos(ci.cur_pos.dir));co.msR.M2;
+    reRD.M3  = co.msR.M3;1000*(wm->ourRobot[id].vel.loc.x * cos(ci.cur_pos.dir) + wm->ourRobot[id].vel.loc.y * sin(ci.cur_pos.dir));
+    //qDebug() << "floc" << "X:"<<reRD.M3  << "Y"<<reRD.M2 ;
+
+    //@kamin
     reRD.KCK = (quint8) rc.kickspeedx;
     reRD.CHP = 0;
     outputBuffer->wpck.AddRobot(reRD);

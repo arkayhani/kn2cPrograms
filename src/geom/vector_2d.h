@@ -63,6 +63,7 @@ public:
 
     double x; //!< X coordinate
     double y; //!< Y coordinate
+    double rot;
 
     /*!
       \brief default constructor.

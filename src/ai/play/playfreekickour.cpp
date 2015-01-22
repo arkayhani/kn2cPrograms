@@ -56,7 +56,7 @@ void PlayFreeKickOur::initRole()
         wm->ourRobot[activeAgents.takeFirst()].Role = AgentRole::DefenderMid;
 
         //--------------for TAGHI test---------------------------------------
-        //wm->ourRobot[activeAgents.takeFirst()].Role = AgentRole::AttackerLeft;
+        wm->ourRobot[activeAgents.takeFirst()].Role = AgentRole::AttackerLeft;
         //-------------------------------------------------------------------
         break;
     case 3:

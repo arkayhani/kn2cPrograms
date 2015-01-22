@@ -27,7 +27,7 @@ public:
     explicit RenderArea(Soccer *sc);
 private:
     Soccer* _sc;
-    QBrush *brush_field, *brush_ball, *brush_yrobot,*brush_brobot,*brush_test;
+    QBrush *brush_field, *brush_ball, *brush_yrobot,*brush_brobot,*brush_test,*brush_test2;
     QTimer _timer;
     FPSCounter _fps;
 

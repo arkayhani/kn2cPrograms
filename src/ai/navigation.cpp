@@ -53,6 +53,7 @@ ControllerInput Navigation::calc(RobotCommand rc)
 
     ci.maxSpeed  = rc.maxSpeed;
     ci.angleMode = rc.angleMode;
+    ci.id = id;
     return ci;
 }
 
@@ -143,11 +144,19 @@ double Navigation::getPath(RobotCommand rc, QList<Vector2D> *points)
         int steps = 0;
         if(points) points->append(node->vec); //nodeStart
         Vector2D lastNode = node->vec;
+        //@kamin
+        if(id==3)
+        wm->navigation_res.clear();
+        //kamin
         for(;;)
         {
             node = astarsearch.GetSolutionNext();
             if(!node) break;
             //qDebug() << "SolutionNext" << node->vec.x << node->vec.y;
+            //@kamin
+            if(id==3)
+            wm->navigation_res.append(node->vec);
+            //kamin
             if(points) points->append(node->vec);
             steps++;
             pathL += (lastNode - node->vec).length();

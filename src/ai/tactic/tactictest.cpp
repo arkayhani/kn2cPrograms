@@ -16,30 +16,21 @@ RobotCommand TacticTest::getCommand()
     RobotCommand rc;
     if(!wm->ourRobot[id].isValid) return rc;
 
-    rc.maxSpeed = 2;
+    double radius=1000;
+    Vector2D center(-1000,0);
+    Vector2D r2c=wm->ourRobot[id].pos.loc-center;
+    r2c.setLength(1000);
 
-    if(!kicked)
-    {
-        if(!firstKick)
-        {
-            rc = goBehindBall();
+    r2c.setDir(r2c.dir() + 20);
+    rc.fin_pos.loc=center+r2c;
+//    alfa = (wm->ourRobot[id].pos.loc-center).dir().RAD2DEG;
+//    alfa=alfa+30;
+//    rc.fin_pos.loc.x=center.x + radius*cos(AngleDeg::deg2rad(alfa));
+//    rc.fin_pos.loc.y=center.y + radius*sin(AngleDeg::deg2rad(alfa));
+//    rc.fin_pos.dir=r2c.dir().radian()+AngleDeg::deg2rad(0);
 
-            if(wm->kn->CanKick(wm->ourRobot[id].pos,wm->ball.pos.loc))
-            {
-                timer->start(300);
-                rc.kickspeedx = 2.5;//50;
-                firstKick = true;
-            }
-        }
-        else
-        {
-            rc.fin_pos = wm->ourRobot[id].pos;
-        }
-    }
-    else
-    {
-        rc.fin_pos = wm->ourRobot[id].pos;
-    }
+    // END OF JAFARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr
+    rc.maxSpeed=0.7;
 
     rc.useNav = true;
     rc.isBallObs = true;

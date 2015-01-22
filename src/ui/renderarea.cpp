@@ -9,6 +9,7 @@ RenderArea::RenderArea(Soccer* sc) :
     brush_yrobot = new QBrush(QColor::fromRgb(255,255,0),Qt::SolidPattern);
     brush_brobot = new QBrush(QColor::fromRgb(50,50,255),Qt::SolidPattern);
     brush_test = new QBrush(QColor::fromRgb(50,50,255),Qt::SolidPattern);
+    brush_test2 = new QBrush(QColor::fromRgb(250,50,55),Qt::SolidPattern);
     _timer.start(40);
     connect(&_timer,SIGNAL(timeout()), this, SLOT(refresh()));
 }
@@ -64,13 +65,20 @@ void RenderArea::paintEvent(QPaintEvent *)
         painter.drawEllipse(QPoint(_sc->wm->ball.pos.loc.x/WORLD_SCALE,-_sc->wm->ball.pos.loc.y/WORLD_SCALE),BALL_R,BALL_R);
     }
 
-//    while(_sc->wm->navigation_pos.size()>0)
-//    {
-//        Vector2D point = _sc->wm->navigation_pos.takeFirst();
-//        painter.setPen(QColor::fromRgb(200,100,0));
-//        painter.setBrush(*brush_test);
-//        painter.drawEllipse(QPoint(point.x/WORLD_SCALE,point.y/WORLD_SCALE),BALL_R,BALL_R);
-//    }
+        while(_sc->wm->navigation_pos.size()>0)
+        {
+            Vector2D point = _sc->wm->navigation_pos.takeFirst();
+            painter.setPen(QColor::fromRgb(200,100,0));
+            painter.setBrush(*brush_test);
+            painter.drawEllipse(QPoint(point.x/WORLD_SCALE,-point.y/WORLD_SCALE),BALL_R,BALL_R);
+        }
+        while(_sc->wm->navigation_res.size()>0)
+        {
+            Vector2D point = _sc->wm->navigation_res.takeFirst();
+            painter.setPen(QColor::fromRgb(50,10,100));
+            painter.setBrush(*brush_test2);
+            painter.drawEllipse(QPoint(point.x/WORLD_SCALE,-point.y/WORLD_SCALE),BALL_R,BALL_R);
+        }
 //    // TEST
 
     //painter.drawChord(100-ROBOT_R,100-ROBOT_R,ROBOT_D,ROBOT_D,ANGLE_TO_CHORD(0))

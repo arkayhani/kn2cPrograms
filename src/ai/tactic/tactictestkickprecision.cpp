@@ -19,7 +19,7 @@ RobotCommand TacticTestKickPrecision::getCommand()
 
     rc.fin_pos = target;
 
-    rc.maxSpeed = 1.5;
+    rc.maxSpeed = 2;
 
     return rc;
 }
