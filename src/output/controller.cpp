@@ -87,14 +87,14 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     double ki;
     double kd;
 
-    if(err1.length()<1 && err1.length()>.3)
+    if(err1.length()<1 && err1.length()>.2)
     {
-        kp = 1;//3.0;//2.5;//2.2;//1.5;
+        kp = 1.5;//3.0;//2.5;//2.2;//1.5;
         ki = 0;//0.1;//0.15;
         kd = 0.08;//0.1;//0.14;
         integral = integral + (err1*(AI_TIMER/1000.0));
     }
-    if(err1.length()<.3)
+    if(err1.length()<.2)
     {
         kp = .5;//3.0;//2.5;//2.2;//1.5;
         ki = 0;//0.1;//0.15;
