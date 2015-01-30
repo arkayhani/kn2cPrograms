@@ -148,8 +148,8 @@ RobotCommand TacticDefender::getCommand()
 
             case 1:
 
-                finalPos.x=wm->ball.pos.loc.x-100*cos(alfa);
-                finalPos.y=wm->ball.pos.loc.y+100*sin(alfa);
+                finalPos.x=wm->ball.pos.loc.x-200*cos(alfa);
+                finalPos.y=wm->ball.pos.loc.y+200*sin(alfa);
 
                 rc.fin_pos.loc=finalPos;
                 if(wm->kn->ReachedToPos(wm->ourRobot[id].pos, rc.fin_pos, 10, 6))
@@ -157,7 +157,6 @@ RobotCommand TacticDefender::getCommand()
                     if (wm->kn->CanKick(wm->ourRobot[id].pos,wm->ball.pos.loc))
                     {
                         rc.kickspeedx =250;
-                        qDebug() << "qqqqqqqqqqqq";
                     }
 
 
@@ -219,7 +218,7 @@ RobotCommand TacticDefender::getCommand()
         break;
         }
 
-        rc.maxSpeed=2.5;
+        rc.maxSpeed=2;
 
         rc.useNav = true;
         rc.isBallObs = true;

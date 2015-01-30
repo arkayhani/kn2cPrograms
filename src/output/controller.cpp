@@ -90,11 +90,16 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     {
         kp = 2;
         kd = 0.08;
+
     }
     if(err1.length()<.3)
     {
         kp = .9;
         kd = 0.08;
+        if(ci.cur_vel.loc.length()<.8)
+        {
+            kp = 1.5;
+        }
     }
     if(err1.length()>1)
     {
@@ -110,10 +115,18 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     LinearSpeed = err1*kp + integral*ki - derived0*kd;
 
-    if(LinearSpeed.length() > LinearSpeed_past.length()+.1)
+//    if(ci.cur_vel.loc.length() + .5 <LinearSpeed.length())
+//        LinearSpeed_past
+
+    if(err1.length() > 0.3)
     {
-        LinearSpeed.setLength(LinearSpeed_past.length()+.1);
+        if(LinearSpeed.length() > LinearSpeed_past.length()+.05)
+        {
+            LinearSpeed.setLength(LinearSpeed_past.length()+.05);
+        }
     }
+
+
 
     if(LinearSpeed.length()>ci.maxSpeed)
     {
@@ -185,7 +198,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
             //qDebug() <<"MAN" << ci.cur_vel.dir*1000<< "SET" <<RotationSpeed;
             //qDebug() << ci.cur_vel.dir*1000;
 //        qDebug()<< "loc" <<ci.cur_pos.loc.x<<ci.cur_pos.loc.y<<RotationSpeed<<LinearSpeed.x;
-          qDebug() <<timer.msec()<<"MAN" <<ci.cur_vel.loc.x<<ci.cur_vel.loc.y<< ci.cur_vel.dir<< "SET" <<LinearSpeed.x<<LinearSpeed.y<<RotationSpeed<< "Err" <<ci.cur_pos.loc.x/1000<<ci.cur_pos.loc.y/1000;
+          qDebug() <<timer.msec()<<"MAN" <<ci.cur_vel.loc.x<<ci.cur_vel.loc.y<< ci.cur_vel.dir<< "SET" <<LinearSpeed.x<<LinearSpeed.y<<RotationSpeed<< "Err" <<err1.length();
         }//<< "loc" <<ci.cur_pos.loc.x<<ci.cur_pos.loc.y
 //    }
 
