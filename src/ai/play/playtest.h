@@ -13,7 +13,7 @@ public:
     virtual int enterCondition();
 
 private:
-    TacticTest* tPasser;
+    TacticTest* ttest;//tPasser;
     TacticAttacker* tAttacker;
     TacticTestKickPrecision* tTT;
     TacticDefender* tDefenderLeft;

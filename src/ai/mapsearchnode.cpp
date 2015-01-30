@@ -92,7 +92,7 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
             Vector2D v(p_dist, p_dist);
             v.rotate(360/p_count * j);
             MapSearchNode node = obs[i].center() + v;
-
+            //kamin
             bool checkNodeInterference = true;
 
             for(int g=0;g<obs.size();g++)
@@ -105,9 +105,9 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
 
             if(checkNodeInterference == true)
             {
-                //@kamin
+
                 wm->navigation_pos.append(node.vec);
-                //kamin
+            //kamout
                 if(node.vec != parent) astarsearch->AddSuccessor(node);
             }
         }
@@ -173,20 +173,24 @@ QList<Circle2D> MapSearchNode::getObsCircle()
         }
     }
 
+    //kamin
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
     {
         if(i == selfRobot) continue;
         if(!wm->ourRobot[i].isValid) continue;
-        Circle2D c(wm->ourRobot[i].pos.loc, r_rad);
+        if((wm->ourRobot[i].pos.loc-wm->ourRobot[selfRobot].pos.loc).length() < 500
+                && (wm->ourRobot[i].vel.loc-wm->ourRobot[selfRobot].vel.loc).length() < 100) continue;
+        Circle2D c(wm->ourRobot[i].pos.loc + wm->ourRobot[i].vel.loc * AI_TIMER, r_rad);
         result.append(c);
     }
 
     for(int i=0; i<PLAYERS_MAX_NUM; i++)
     {
         if(!wm->oppRobot[i].isValid) continue;
-        Circle2D c(wm->oppRobot[i].pos.loc, r_rad);
+        Circle2D c(wm->oppRobot[i].pos.loc+ wm->oppRobot[i].vel.loc * AI_TIMER, r_rad);
         result.append(c);
     }
+    //kamout
 
     //    Circle2D c(Vector2D(0,0), 500);
     //    result.append(c);

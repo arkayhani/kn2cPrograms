@@ -8,6 +8,7 @@ TacticTest::TacticTest(WorldModel *worldmodel, QObject *parent) :
     firstKick = false;
     kicked = false;
     timer = new QTimer();
+    state=0;
     connect(timer,SIGNAL(timeout()),this,SLOT(timerEvent()));
 }
 
@@ -16,21 +17,37 @@ RobotCommand TacticTest::getCommand()
     RobotCommand rc;
     if(!wm->ourRobot[id].isValid) return rc;
 
-    double radius=1000;
-    Vector2D center(-1000,0);
-    Vector2D r2c=wm->ourRobot[id].pos.loc-center;
-    r2c.setLength(1000);
+    // NEW JAFARRRRR Test for Omega
+        switch (state) {
+        case 0:
+               rc.fin_pos.loc = Vector2D(0,-1700);
+               if((wm->ourRobot[id].pos.loc-rc.fin_pos.loc).length()<100) state=1;
+            break;
+        case 1:
+            rc.fin_pos.loc=Vector2D(0,1700);
+            if((wm->ourRobot[id].pos.loc-rc.fin_pos.loc).length()<100) state=0;
+            break;
 
-    r2c.setDir(r2c.dir() + 20);
-    rc.fin_pos.loc=center+r2c;
-//    alfa = (wm->ourRobot[id].pos.loc-center).dir().RAD2DEG;
-//    alfa=alfa+30;
-//    rc.fin_pos.loc.x=center.x + radius*cos(AngleDeg::deg2rad(alfa));
-//    rc.fin_pos.loc.y=center.y + radius*sin(AngleDeg::deg2rad(alfa));
-//    rc.fin_pos.dir=r2c.dir().radian()+AngleDeg::deg2rad(0);
+        }
+        Vector2D a =wm->ball.pos.loc - wm->ourRobot[id].pos.loc;
 
-    // END OF JAFARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr
-    rc.maxSpeed=0.7;
+        rc.fin_pos.dir=a.dir().radian();
+//    double radius=1000;
+//    Vector2D center(-1000,0);
+//    Vector2D r2c=wm->ourRobot[id].pos.loc-center;
+//    r2c.setLength(1000);
+
+//    r2c.setDir(r2c.dir() + 20);
+//    rc.fin_pos.loc=center+r2c;
+////    alfa = (wm->ourRobot[id].pos.loc-center).dir().RAD2DEG;
+////    alfa=alfa+30;
+////    rc.fin_pos.loc.x=center.x + radius*cos(AngleDeg::deg2rad(alfa));
+////    rc.fin_pos.loc.y=center.y + radius*sin(AngleDeg::deg2rad(alfa));
+////    rc.fin_pos.dir=r2c.dir().radian()+AngleDeg::deg2rad(0);
+
+//    // END OF JAFARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr
+    rc.maxSpeed=1.7;
+//    state=0;
 
     rc.useNav = true;
     rc.isBallObs = true;
@@ -45,14 +62,16 @@ RobotCommand TacticTest::goBehindBall()
 
     rc.maxSpeed = 1;
 
-    int index = findBestPlayerForPass();
 
-    if(index != -1)
-    {
-        Vector2D target(wm->ourRobot[index].pos.loc.x,wm->ourRobot[index].pos.loc.y);
-        Vector2D goal(target.x+500*cos(target.dir().DEG2RAD),target.y+500*sin(target.dir().DEG2RAD));
-        rc.fin_pos = wm->kn->AdjustKickPoint(wm->ball.pos.loc,goal);
-    }
+//    int index = findBestPlayerForPass();
+
+//    if(index != -1)
+//    {
+//        Vector2D target(wm->ourRobot[index].pos.loc.x,wm->ourRobot[index].pos.loc.y);
+//        Vector2D goal(target.x+500*cos(target.dir().DEG2RAD),target.y+500*sin(target.dir().DEG2RAD));
+//        rc.fin_pos = wm->kn->AdjustKickPoint(wm->ball.pos.loc,goal);
+//    }
+
 
     return rc;
 }

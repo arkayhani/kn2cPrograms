@@ -10,11 +10,12 @@ PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
 //    tHalt=new TacticHalt(wm);
     tGoalie = new TacticGoalie(wm);
     tTT = new TacticTestKickPrecision(wm);
+    ttest = new TacticTest(wm);
 }
 
 int PlayTest::enterCondition()
 {
-    return 200000000000000000;
+    return 000;
 }
 
 void PlayTest::initRole()
@@ -33,6 +34,7 @@ void PlayTest::execute()
 //    tactics[recieverID] = tAttacker;
     tactics[0] = tGoalie;
     tactics[3] = tTT;
+    tactics[4] = ttest;
 
     return ;
 

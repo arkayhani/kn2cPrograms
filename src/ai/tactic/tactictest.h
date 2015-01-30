@@ -21,6 +21,7 @@ private:
     bool canKick;
     bool firstKick;
     double alfa;
+    int state;
     QTimer *timer;
     bool isFree(int index);
 private slots:

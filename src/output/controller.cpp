@@ -80,8 +80,6 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
         LinearSpeed.setLength(ci.maxSpeed);
     }
 
-    //LinearSpeed = u1 + (LinearSpeed - u1)*0.4;
-
     u1 = LinearSpeed;
 
     double kp;
@@ -90,19 +88,19 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     if(err1.length()<1 && err1.length()>.3)
     {
-        kp = 2;//3.0;//2.5;//2.2;//1.5;
-        kd = 0.08;//0.1;//0.14;
+        kp = 2;
+        kd = 0.08;
     }
     if(err1.length()<.3)
     {
-        kp = .9;//3.0;//2.5;//2.2;//1.5;
-        kd = 0.08;//0.1;//0.14;
+        kp = .9;
+        kd = 0.08;
     }
     if(err1.length()>1)
     {
-        kp = 2;//2.5;//2.5;
-        ki = 0;//0.15;//0.05;
-        kd = 0;//0.2;//0;
+        kp = 2;
+        ki = 0;
+        kd = 0;
         integral = {0,0};
     }
 
@@ -127,30 +125,16 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
 
     LinearSpeed_past = LinearSpeed ;
-
-//    //KAMIN
-//    LinearSpeed.x=.75;
-//    LinearSpeed.y=0;
-//    //KAMOUT
-
-
-    //kamin
-    //commented by kamin
-//    RotLinearSpeed.x = LinearSpeed.x * cos(ci.cur_pos.dir) + LinearSpeed.y * sin(ci.cur_pos.dir);
-//    RotLinearSpeed.y = -LinearSpeed.x * sin(ci.cur_pos.dir) + LinearSpeed.y * cos(ci.cur_pos.dir);
-    //kamout
-
     /*************************************Rotation ctrl**********************/
     double wkp,wki,wkd,wu1;
     double MAXROTATIONSPEED = 2.5,RotationSpeed;
     werr1 = ci.fin_pos.dir - ci.cur_pos.dir ;
-    if (err1.length()>3)
-    {
-        Vector2D a =Vector2D(ci.mid_pos.loc - ci.cur_pos.loc);
-        werr1 = atan(a.y/a.x) - ci.cur_pos.dir;
-    }
+//    if (err1.length()>.3)
+//    {
+//        Vector2D a =Vector2D(ci.mid_pos.loc - ci.cur_pos.loc);
+//        werr1 = atan(a.y/a.x) - ci.cur_pos.dir;
+//    }
 
-    //werr1 = ci.mid_pos.dir - ci.cur_pos.dir;
     if (werr1 > M_PI) werr1 -= 2 * M_PI;
     if (werr1 < -M_PI) werr1 += 2 * M_PI;
 
@@ -175,6 +159,12 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
         wkp = .5;
         wki = 0;
         wkd = 1;
+        if(err1.length() >.03 && ci.cur_vel.loc.length()<.5)
+        {
+            wkp = 2;
+            wki = 0;
+            wkd = 1;
+        }
     }
 
 
@@ -188,23 +178,24 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     RotationSpeed = wu1;
 
     //@kamin
-    if(ci.fin_pos.loc.x == 0 && ci.fin_pos.loc.y == 0)
-    {
+//    if(ci.fin_pos.loc.x == 0 && ci.fin_pos.loc.y == 0)
+//    {
         if(1)//ci.cur_vel.loc.x > 0)
         {
             //qDebug() <<"MAN" << ci.cur_vel.dir*1000<< "SET" <<RotationSpeed;
             //qDebug() << ci.cur_vel.dir*1000;
-        //qDebug()<< "loc" <<ci.cur_pos.loc.x<<ci.cur_pos.loc.y<<RotationSpeed<<LinearSpeed.x;
-          qDebug() <<"MAN" <<ci.cur_vel.loc.x<<ci.cur_vel.loc.y<< ci.cur_vel.dir<< "SET" <<LinearSpeed.x<<LinearSpeed.y<<RotationSpeed<< "Err" <<ci.cur_pos.loc.x/1000<<ci.cur_pos.loc.y/1000;
+//        qDebug()<< "loc" <<ci.cur_pos.loc.x<<ci.cur_pos.loc.y<<RotationSpeed<<LinearSpeed.x;
+          qDebug() <<timer.msec()<<"MAN" <<ci.cur_vel.loc.x<<ci.cur_vel.loc.y<< ci.cur_vel.dir<< "SET" <<LinearSpeed.x<<LinearSpeed.y<<RotationSpeed<< "Err" <<ci.cur_pos.loc.x/1000<<ci.cur_pos.loc.y/1000;
         }//<< "loc" <<ci.cur_pos.loc.x<<ci.cur_pos.loc.y
-    }
+//    }
 
     double alpha = ci.cur_pos.dir+atan(RotationSpeed*0.187);
     //alpha is the corrected angel whitch handle the problem
     //of nonlinear relation of rotational movement and linear movement
-     //qDebug() <<alpha;
-        RotLinearSpeed.x = LinearSpeed.x * cos(alpha) + LinearSpeed.y * sin(alpha);
-        RotLinearSpeed.y = -LinearSpeed.x * sin(alpha) + LinearSpeed.y * cos(alpha);
+
+
+    RotLinearSpeed.x = LinearSpeed.x * cos(alpha) + LinearSpeed.y * sin(alpha);
+    RotLinearSpeed.y = -LinearSpeed.x * sin(alpha) + LinearSpeed.y * cos(alpha);
 
     RobotSpeed ans;
 

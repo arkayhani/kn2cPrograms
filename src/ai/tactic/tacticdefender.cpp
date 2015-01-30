@@ -120,7 +120,7 @@ RobotCommand TacticDefender::getCommand()
                 qDebug() << wm->ourRobot[id].pos.loc.x << wm->ourRobot[id].pos.loc.y;
                 ballDeg = (float)((int)(time*3) % 360)*asin(1)/90;//*2*asin(1);//4*asin((float)(time % 100)/100.0) /*- asin(1)*/;
                 //qDebug() << "ploc" <<-cos( 0.18716 * M_PI);ballDeg*90/asin(1);
-                if(0)//abs(ballDeg)<alpha)
+                if(abs(ballDeg)<alpha)//0)//
                     //@kamin
                 {
                     rc.fin_pos.dir=ballDeg;
@@ -167,30 +167,6 @@ RobotCommand TacticDefender::getCommand()
 
             }
 
-            //@kamout
-            //@kamin
-            if (wm->kn->CanKick(wm->ourRobot[id].pos,wm->ball.pos.loc))
-            {
-                rc.kickspeedx =250;
-                qDebug() << "qqqqqqqqqqqq";
-                flag = 0;
-            }
-
-            rc.fin_pos.loc.x = 0;
-
-            rc.fin_pos.loc.y = 0;
-
-//            if(wm->ball.isValid)
-//            {
-//                rc.fin_pos.loc.x = -2500;
-
-//                rc.fin_pos.loc.y = -1600;
-
-//                rc.fin_pos.dir = 3.14;
-//            }
-
-
-            //@kamout
 
         break;
 
@@ -243,17 +219,7 @@ RobotCommand TacticDefender::getCommand()
         break;
         }
 
-
-        // JAFARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr
-//        double radius=1000;
-//        Vector2D center(-1000,0);
-
-//        rc.fin_pos.loc.x=center.x + radius*cos(alfa);
-//        rc.fin_pos.loc.y=center.y + radius*sin(alfa);
-//        rc.fin_pos.dir=AngleDeg::deg2rad(alfa);
-//        alfa=alfa+20;
-        // END OF JAFARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr
-        rc.maxSpeed=2;
+        rc.maxSpeed=2.5;
 
         rc.useNav = true;
         rc.isBallObs = true;
