@@ -166,39 +166,6 @@ RobotCommand TacticDefender::getCommand()
                 break;
 
             }
-            //@kamin
-//            qDebug() << wm->ourRobot[id].pos.loc.x << wm->ourRobot[id].pos.loc.y;
-//            ballDeg = (float)((int)(time*3) % 360)*asin(1)/90;//*2*asin(1);//4*asin((float)(time % 100)/100.0) /*- asin(1)*/;
-//            //qDebug() << "ploc" <<-cos( 0.18716 * M_PI);ballDeg*90/asin(1);
-//            if(0)//abs(ballDeg)<alpha)
-//                //@kamin
-//            {
-//                rc.fin_pos.dir=ballDeg;
-//                rc.fin_pos.loc={-(float)(FIELD_MAX_X)+Field::goalCircleEX_R,0.0+tan(ballDeg)*Field::goalCircleEX_R};
-//            }
-
-//            else
-//            {
-//                rc.fin_pos.dir=ballDeg;
-//                rc.fin_pos.loc={-(float)(FIELD_MAX_X)+cos(ballDeg)*dtgc+1400,0.0+sin(ballDeg)*dtgc};
-//            }
-
-//            if(wm->kn->ReachedToPos(wm->ourRobot[id].pos, rc.fin_pos, 40, 6))
-//            {
-//                rc.fin_pos.dir=wm->ourRobot[id].pos.dir;
-//                rc.fin_pos.loc= wm->ourRobot[id].pos.loc;
-
-//            }
-            //@kamin
-//            rc.fin_pos.dir=wm->ourRobot[id].pos.dir;
-//            rc.fin_pos.loc= {wm->ourRobot[id].pos.loc.x+2000,wm->ourRobot[id].pos.loc.y};
-//            if(wm->ourRobot[id].pos.loc.x>2000) flag=1;
-//            if(flag==1)
-//            {
-//                rc.fin_pos.dir=90;wm->ourRobot[id].pos.dir;
-//                rc.fin_pos.loc= {wm->ourRobot[id].pos.loc.x-2000,wm->ourRobot[id].pos.loc.y};
-//            }
-//            if(wm->ourRobot[id].pos.loc.x<-2000)flag=0;
 
             //@kamout
             //@kamin
@@ -212,6 +179,15 @@ RobotCommand TacticDefender::getCommand()
             rc.fin_pos.loc.x = 0;
 
             rc.fin_pos.loc.y = 0;
+
+//            if(wm->ball.isValid)
+//            {
+//                rc.fin_pos.loc.x = -2500;
+
+//                rc.fin_pos.loc.y = -1600;
+
+//                rc.fin_pos.dir = 3.14;
+//            }
 
 
             //@kamout
