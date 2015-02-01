@@ -34,6 +34,10 @@
 #define TRANSMITTER_TIMER   15
 #define AI_TIMER            15
 
+// Pos & Speed calc
+#define STRANGE_ERR   200
+#define STRANGE_WERR  0.523598776
+
 namespace Field
 {
 const double MaxX = 3025;

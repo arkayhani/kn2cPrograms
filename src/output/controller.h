@@ -35,7 +35,7 @@ private:
     Vector2D LinearSpeed;
     Vector2D LinearSpeed_past;
     //kamout
-    double wu1,wintegral,werr0,werr1;
+    double wu1,wu1_last,wintegral,werr0,werr1;
     double wderived0,wderived1;
 
     int stateCTRL;

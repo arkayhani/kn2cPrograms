@@ -156,7 +156,7 @@ RobotCommand TacticDefender::getCommand()
                 {
                     if (wm->kn->CanKick(wm->ourRobot[id].pos,wm->ball.pos.loc))
                     {
-                        rc.kickspeedx =250;
+                        //rc.kickspeedx =250;
                     }
 
 
@@ -166,6 +166,10 @@ RobotCommand TacticDefender::getCommand()
 
             }
 
+            rc.fin_pos.loc={0,0};
+
+
+             //rc.fin_pos.dir=atan((wm->ball.pos.loc.y-wm->ourRobot[id].pos.loc.y)/(wm->ball.pos.loc.x-wm->ourRobot[id].pos.loc.x));
 
         break;
 

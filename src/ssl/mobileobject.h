@@ -34,6 +34,7 @@ public:
     bool isValid;
 
     Position pos;
+    Position pos_predicted;
     double time;
     int camera;
 
@@ -49,6 +50,7 @@ private:
     int    timer_seen_interval;
     QTimer timer_vel;
     int    timer_vel_interval;
+    void   vel_calc();
 
 private slots:
     void timer_seen_timeout();
