@@ -54,57 +54,56 @@ void MobileObject::seenAt(vector<Position> p, double t, int c)
     if(p.size()<1) return;
     isValid = true;
     timer_seen.start(timer_seen_interval); //restart
-    //    if(!timer_vel.isActive()) timer_vel.start(timer_vel_interval);
-
+    //if(!timer_vel.isActive()) timer_vel.start(timer_vel_interval);
     PositionTimeCamera ans;
     ans.time = t;
     ans.camera = c;
-    ans.pos=p[0];
-
-
-
-    //    int min_i = 0;
-    //    double min_d = pos.loc.dist2(p[0].loc);
-    //    for(size_t i=0; i < p.size(); i++)
-    //    {
-    //        double d = pos.loc.dist2(p[i].loc);
-    //        if(d < min_d)
-    //        {
-    //            min_d = d;
-    //            min_i = i;
-    //        }
-    //    }
-
-    //    Position sel_pos = p[0];
-    //    ans.pos.loc = pos.loc + (sel_pos.loc - pos.loc) * 0.5;
-    //    ans.pos.dir = fabs(pos.dir) + (fabs(sel_pos.dir) - fabs(pos.dir)) * 0.8;
-    //    if(sel_pos.dir < 0 ) ans.pos.dir *= -1;
-    PositionTimeCamera res = ans;//last_postc[min_i];
+    int min_i = 0;
+    double min_d = pos.loc.dist2(p[0].loc);
+    for(size_t i=0; i < p.size(); i++)
+    {
+        double d = pos.loc.dist2(p[i].loc);
+        if(d < min_d)
+        {
+            min_d = d;
+            min_i = i;
+        }
+    }
+    Position sel_pos = p[min_i];
+    ans.pos.loc = pos.loc + (sel_pos.loc - pos.loc) * 0.5;
+    ans.pos.dir = fabs(pos.dir) + (fabs(sel_pos.dir) - fabs(pos.dir)) * 0.8;
+    if(sel_pos.dir < 0 ) ans.pos.dir *= -1;
+    appendPostc(ans);
+    /*
+   camera = ans.camera;
+   time = ans.time;
+   pos = ans.pos;
+   return;
+   */
+//    min_i = 0;
+//    min_d = pos.loc.dist2(last_postc[0].pos.loc);
+//    for(int i=0; i<LAST_COUNT; i++)
+//    {
+//        if(last_postc[i].time < 0) continue;
+//        double d = pos.loc.dist2(last_postc[i].pos.loc);
+//        if(d < min_d)
+//        {
+//            min_d = d;
+//            min_i = i;
+//        }
+//    }
+    PositionTimeCamera res = ans;last_postc[min_i];
+    camera = res.camera;
+    time = res.time;
+    pos = res.pos;
 //    if((pos_predicted.loc - res.pos.loc).length() > STRANGE_ERR)
 //    {
 //        res.pos.loc = pos_predicted.loc * 0.7 + res.pos.loc * 0.3;
 //    }
 //    else
 //    {
-//        //res.pos.loc = pos_predicted.loc * 0.1 + res.pos.loc * 0.9;
+//        //res.pos.loc = pos_predicted.loc ;
 //    }
-
-//    if((pos_predicted.dir - res.pos.dir) > STRANGE_WERR)
-//    {
-//        res.pos.dir = pos_predicted.dir * 0.7 + res.pos.dir * 0.3;
-//    }
-//    else
-//    {
-//        //res.pos.dir = pos_predicted.dir * 0.1 + res.pos.dir * 0.9;
-//    }
-
-    //res.pos.dir = pos_predicted.dir * 0.01 + res.pos.dir * 0.99;
-    res.pos.loc = pos_predicted.loc * 0.5 + res.pos.loc * 0.5;
-
-    camera = res.camera;
-    time = res.time;
-    pos = res.pos;
-
     vel_calc();
 }
 
@@ -123,7 +122,7 @@ void MobileObject::vel_calc()
     vel.dir = (pos.dir - last.pos.dir) / (time - last.time);
 
     pos_predicted.loc =  pos.loc + vel.loc * (time - last.time);
-    pos_predicted.dir = pos.dir + vel.dir * (time - last.time);
+    pos_predicted.dir = pos.dir + vel.dir * (time - last.time)/100;
 
     vel_postc.pos = pos;
     vel_postc.time = time;
