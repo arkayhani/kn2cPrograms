@@ -117,7 +117,6 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 //        }
     }
 
-
     derived1 = (ci.cur_pos.loc*0.001 - err0)/(AI_TIMER/1000.0);
     derived0 = derived0 + (derived1 - derived0)*0.1;
     err0 = ci.cur_pos.loc*0.001;
@@ -155,18 +154,19 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     if(err1.length() >.5)
     {
+
         if(fabs(werr1)<.5)
         {
             wkp = 1;
             wki = 0;
-            wkd = 0.3;
+            wkd = 0.8;
 
         }
         else
         {
             wkp =2;
             wki =0;
-            wkd =.1;
+            wkd =.8;
         }
     }
 
@@ -174,15 +174,17 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     {
         if(fabs(werr1)>.4)
         {
-            wkp = 3;
+            if(ci.id == 2)
+            qDebug()<< "loc";
+            wkp = .8;
             wki = 0;
-            wkd = 0;
+            wkd = .4;
         }
         else
         {
             wkp = .4;
             wki = 0;
-            wkd = 0;
+            wkd = 0.1;
         }
     }
 
@@ -203,11 +205,14 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     }
 
 
+//    LinearSpeed.x = .5;
+//    LinearSpeed.y = 0;
+
         if(1)//ci.cur_vel.loc.x > 0)
         {
             //qDebug() <<"MAN" << ci.cur_vel.dir*1000<< "SET" <<RotationSpeed;
             //qDebug() << ci.cur_vel.dir*1000;
-            //qDebug()<< "loc" <<ci.cur_pos.loc.x<<ci.cur_pos.loc.y<<ci.cur_vel.loc.x;
+            //qDebug()<< "loc" <<ci.cur_pos.loc.x<<ci.cur_pos.loc.y<<wu1<<LinearSpeed.x;
             //qDebug() <<"MAN"<< ci.cur_vel.dir*500<< "SET" <<RotationSpeed<< "Err"<<werr1 << ci.cur_pos.dir;
 //            qDebug() <<timer.msec()<<"MAN" <<ci.cur_vel.loc.x<<ci.cur_vel.loc.y<< ci.cur_vel.dir<< "SET" <<LinearSpeed.x<<LinearSpeed.y<<RotationSpeed<< "Err" <<err1.length();
 
@@ -217,6 +222,8 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     double alpha = ci.cur_pos.dir;+atan(RotationSpeed*0.187);
     //alpha is the corrected angel whitch handle the problem
     //of nonlinear relation of rotational movement and linear movement
+
+
 
 
     RotLinearSpeed.x = LinearSpeed.x * cos(alpha) + LinearSpeed.y * sin(alpha);

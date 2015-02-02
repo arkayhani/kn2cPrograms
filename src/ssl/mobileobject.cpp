@@ -43,6 +43,52 @@ vel_postc.time = time;
 
 void MobileObject::seenAt(vector<Position> p, double t, int c)
 {
+//    if(p.size()<1) return;
+//   isValid = true;
+//   timer_seen.start(timer_seen_interval); //restart
+//   if(!timer_vel.isActive()) timer_vel.start(timer_vel_interval);
+//   PositionTimeCamera ans;
+//   ans.time = t;
+//   ans.camera = c;
+//   int min_i = 0;
+//   double min_d = pos.loc.dist2(p[0].loc);
+//   for(size_t i=0; i < p.size(); i++)
+//   {
+//   double d = pos.loc.dist2(p[i].loc);
+//   if(d < min_d)
+//   {
+//   min_d = d;
+//   min_i = i;
+//   }
+//   }
+//   Position sel_pos = p[min_i];
+//   ans.pos.loc = pos.loc + (sel_pos.loc - pos.loc) * 0.5;
+//   ans.pos.dir = fabs(pos.dir) + (fabs(sel_pos.dir) - fabs(pos.dir)) * 0.8;
+//   if(sel_pos.dir < 0 ) ans.pos.dir *= -1;
+//   appendPostc(ans);
+//   /*
+//   camera = ans.camera;
+//   time = ans.time;
+//   pos = ans.pos;
+//   return;
+//   */
+//   min_i = 0;
+//   min_d = pos.loc.dist2(last_postc[0].pos.loc);
+//   for(int i=0; i<LAST_COUNT; i++)
+//   {
+//   if(last_postc[i].time < 0) continue;
+//   double d = pos.loc.dist2(last_postc[i].pos.loc);
+//   if(d < min_d)
+//   {
+//   min_d = d;
+//   min_i = i;
+//   }
+//   }
+//   PositionTimeCamera res = last_postc[min_i];
+//   camera = res.camera;
+//   time = res.time;
+//   pos = res.pos;
+/////////////////////////////////////////
     if(p.size()<1) return;
     isValid = true;
     timer_seen.start(timer_seen_interval); //restart
@@ -66,8 +112,8 @@ void MobileObject::seenAt(vector<Position> p, double t, int c)
         }
     }
 
-    ans.pos.loc = p[min_i].loc;
-    ans.pos.dir = p[min_i].dir;
+    ans.pos.loc = (p[min_i].loc - pos.loc )  + pos.loc;
+    ans.pos.dir = (p[min_i].dir - pos.dir)  + pos.dir ;
 
     camera = ans.camera;
     time = ans.time;
