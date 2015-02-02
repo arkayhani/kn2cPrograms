@@ -209,12 +209,12 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
             //qDebug() << ci.cur_vel.dir*1000;
             //qDebug()<< "loc" <<ci.cur_pos.loc.x<<ci.cur_pos.loc.y<<ci.cur_vel.loc.x;
             //qDebug() <<"MAN"<< ci.cur_vel.dir*500<< "SET" <<RotationSpeed<< "Err"<<werr1 << ci.cur_pos.dir;
-            qDebug() <<timer.msec()<<"MAN" <<ci.cur_vel.loc.x<<ci.cur_vel.loc.y<< ci.cur_vel.dir<< "SET" <<LinearSpeed.x<<LinearSpeed.y<<RotationSpeed<< "Err" <<err1.length();
+//            qDebug() <<timer.msec()<<"MAN" <<ci.cur_vel.loc.x<<ci.cur_vel.loc.y<< ci.cur_vel.dir<< "SET" <<LinearSpeed.x<<LinearSpeed.y<<RotationSpeed<< "Err" <<err1.length();
 
         }
 
 
-    double alpha = ci.cur_pos.dir+atan(RotationSpeed*0.187);
+    double alpha = ci.cur_pos.dir;+atan(RotationSpeed*0.187);
     //alpha is the corrected angel whitch handle the problem
     //of nonlinear relation of rotational movement and linear movement
 

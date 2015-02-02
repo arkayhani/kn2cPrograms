@@ -24,7 +24,7 @@ int PlayStop::enterCondition()
 //    else if(wm->cmgs.canMove() && wm->cmgs.gameOn()==false && wm->cmgs.allowedNearBall()==false)
 //        return 10;
 //    else
-        return 2000000;
+        return 20000000000000000000000;
 }
 
 void PlayStop::initRole()

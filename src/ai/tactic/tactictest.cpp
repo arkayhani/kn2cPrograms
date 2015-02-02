@@ -36,6 +36,7 @@ RobotCommand TacticTest::getCommand()
 //    Vector2D center(-1000,0);
 //    Vector2D r2c=wm->ourRobot[id].pos.loc-center;
 //    r2c.setLength(1000);
+        qDebug() <<"State : " << state;
 
 //    r2c.setDir(r2c.dir() + 20);
 //    rc.fin_pos.loc=center+r2c;
