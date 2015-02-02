@@ -41,7 +41,7 @@ void MobileObject::timer_vel_timeout()
     }
 
     PositionTimeCamera last = vel_postc;
-    vel.loc = vel.loc + (((pos.loc - last.pos.loc) / (time - last.time)) - vel.loc);// filter!!!!
+    vel.loc = vel.loc + (((pos.loc - last.pos.loc) / (time - last.time)) - vel.loc);
     vel.dir = (pos.dir - last.pos.dir) / (time - last.time);
 
     vel_postc.pos = pos;

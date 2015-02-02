@@ -105,7 +105,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     if(err <.2)
     {
-        kp = 2;//.9;
+        kp = 3;//.9;
         kd = 0.01;//8;
 
 //        if(err >.03 && ci.cur_vel.loc.length()<.5)
@@ -224,12 +224,9 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     RobotSpeed ans;
 
-    ans.VX = robot_speed[ci.id].x + (RotLinearSpeed.x - robot_speed[ci.id].x)*.1;sin(M_PI_4);
-    ans.VY = robot_speed[ci.id].y + (RotLinearSpeed.y - robot_speed[ci.id].y)*.1;cos(M_PI_4);
-    ans.VW = robot_speed[ci.id].rot + (RotationSpeed - robot_speed[ci.id].rot)*1;
-    robot_speed[ci.id].x=ans.VX;
-    robot_speed[ci.id].y=ans.VY;
-    robot_speed[ci.id].rot=ans.VW ;
+    ans.VX = RotLinearSpeed.x;
+    ans.VY = RotLinearSpeed.y;
+    ans.VW = RotationSpeed ;
     if(fabs(werr1) <0.1 /*&& err1.length()<.02*/) ans.VW=0;//maximum priscision in angel for robot becuse of it/s phisic's limits is 0.07 rad
     if(err1.length()<.02)
     {

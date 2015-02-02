@@ -30,7 +30,6 @@ private:
     Vector2D u1;
     Vector2D derived0,derived1;
     Vector2D integral;
-    Vector2D robot_speed[12];
     //kamin
     Vector2D LinearSpeed;
     Vector2D LinearSpeed_past;
