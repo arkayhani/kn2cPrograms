@@ -7,6 +7,7 @@
 #include "outputbuffer.h"
 #include "play.h"
 #include "fpscounter.h"
+#include <QUdpSocket>
 
 class AI : public QObject
 {
@@ -27,6 +28,8 @@ private:
     QTimer timer;
     Play *current_play;
     Tactic *current_tactic[PLAYERS_MAX_NUM];
+    QUdpSocket *udp;
+    QHostAddress ip;
 
 private slots:
     void timer_timeout();

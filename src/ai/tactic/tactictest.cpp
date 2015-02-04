@@ -17,39 +17,34 @@ RobotCommand TacticTest::getCommand()
     RobotCommand rc;
     if(!wm->ourRobot[id].isValid) return rc;
 
-    // NEW JAFARRRRR Test for Omega
-        switch (state) {
-        case 0:
-               rc.fin_pos.loc = Vector2D(0,-1700);
-               if((wm->ourRobot[id].pos.loc-rc.fin_pos.loc).length()<100) state=1;
-            break;
-        case 1:
-            rc.fin_pos.loc=Vector2D(0,1700);
-            if((wm->ourRobot[id].pos.loc-rc.fin_pos.loc).length()<100) state=0;
-            break;
+////moving on width direction to ball////////////////////////////////////////////
+//        switch (state) {
+//        case 0:
+//               rc.fin_pos.loc = Vector2D(0,-1700);
+//               if((wm->ourRobot[id].pos.loc-rc.fin_pos.loc).length()<100) state=1;
+//            break;
+//        case 1:
+//            rc.fin_pos.loc=Vector2D(0,1700);
+//            if((wm->ourRobot[id].pos.loc-rc.fin_pos.loc).length()<100) state=0;
+//            break;
 
-        }
-        Vector2D a =wm->ball.pos.loc - wm->ourRobot[id].pos.loc;
+//        }
+//        Vector2D a =wm->ball.pos.loc - wm->ourRobot[id].pos.loc;
 
-        rc.fin_pos.dir=a.dir().radian();
-//    double radius=1000;
-//    Vector2D center(-1000,0);
-//    Vector2D r2c=wm->ourRobot[id].pos.loc-center;
-//    r2c.setLength(1000);
-        qDebug() <<"State : " << state;
+//        rc.fin_pos.dir=a.dir().radian();
+/////////////////////////////////////////////////////////////////////////////////
 
-//    r2c.setDir(r2c.dir() + 20);
-//    rc.fin_pos.loc=center+r2c;
-////    alfa = (wm->ourRobot[id].pos.loc-center).dir().RAD2DEG;
-////    alfa=alfa+30;
-////    rc.fin_pos.loc.x=center.x + radius*cos(AngleDeg::deg2rad(alfa));
-////    rc.fin_pos.loc.y=center.y + radius*sin(AngleDeg::deg2rad(alfa));
-////    rc.fin_pos.dir=r2c.dir().radian()+AngleDeg::deg2rad(0);
+////going to center//////////////////////////////////////////////////////////////
+rc.fin_pos.loc = {0,0};
+/////////////////////////////////////////////////////////////////////////////////
 
-//    // END OF JAFARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr
-    rc.maxSpeed=1.7;
-//    state=0;
+////just looking at ball/////////////////////////////////////////////////////////
+//   Vector2D a =wm->ball.pos.loc - wm->ourRobot[id].pos.loc;
+//   rc.fin_pos.loc = wm->ourRobot[this->id].pos.loc;
+//   rc.fin_pos.dir=a.dir().radian();
+/////////////////////////////////////////////////////////////////////////////////
 
+    rc.maxSpeed=2;
     rc.useNav = true;
     rc.isBallObs = true;
     rc.isKickObs = true;

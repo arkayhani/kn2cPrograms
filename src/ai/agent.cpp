@@ -45,11 +45,21 @@ void Agent::SendCommand(RobotCommand rc)
     RobotData reRD;
     //@kamin
     reRD.RID = id;
+
+
     reRD.M0  = co.msR.M0;wm->ourRobot[id].vel.loc.x;
     reRD.M1  = co.msR.M1;
     reRD.M2  = co.msR.M2;1000*(-wm->ourRobot[id].vel.loc.x * sin(ci.cur_pos.dir) + wm->ourRobot[id].vel.loc.y * cos(ci.cur_pos.dir));co.msR.M2;
     reRD.M3  = co.msR.M3;1000*(wm->ourRobot[id].vel.loc.x * cos(ci.cur_pos.dir) + wm->ourRobot[id].vel.loc.y * sin(ci.cur_pos.dir));
-    //qDebug() << "floc" << "X:"<<reRD.M3  << "Y"<<reRD.M2 ;
+
+    if(id == 3)//Dtestin
+    {
+        reRD.M0  = 0;co.msR.M0;
+        reRD.M1  = 20;co.msR.M1;
+        reRD.M2  = 200;co.msR.M2;
+        reRD.M3  = 400;co.msR.M3;
+    }//Dtestout
+
 
     //@kamin
     reRD.KCK = (quint8) rc.kickspeedx;

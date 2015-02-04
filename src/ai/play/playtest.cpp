@@ -15,7 +15,7 @@ PlayTest::PlayTest(WorldModel *worldmodel, QObject *parent) :
 
 int PlayTest::enterCondition()
 {
-    return 00;
+    return 20000000;
 }
 
 void PlayTest::initRole()
@@ -33,8 +33,8 @@ void PlayTest::execute()
 //    wm->ourRobot[recieverID].Status = AgentStatus::RecievingPass;
 //    tactics[recieverID] = tAttacker;
     tactics[0] = tGoalie;
-    tactics[4] = tTT;
-    tactics[3] = ttest;
+    tactics[3] = tTT;
+    tactics[2] = ttest;
 
     return ;
 
