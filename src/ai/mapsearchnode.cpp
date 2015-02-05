@@ -85,7 +85,7 @@ bool MapSearchNode::GetSuccessors(AStarSearch<MapSearchNode> *astarsearch, MapSe
     for(int i=0; i<obs.size(); i++)
     {
         int    p_count = 6;
-        double p_dist  = ROBOT_RADIUS * 2 ;+ BALL_RADIUS;
+        double p_dist  = ROBOT_RADIUS * 2 + BALL_RADIUS;
 
         for(int j=0; j<p_count; j++)
         {

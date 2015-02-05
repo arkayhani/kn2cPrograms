@@ -10,6 +10,7 @@ TacticTest::TacticTest(WorldModel *worldmodel, QObject *parent) :
     timer = new QTimer();
     state=0;
     connect(timer,SIGNAL(timeout()),this,SLOT(timerEvent()));
+    alfa = 0;
 }
 
 RobotCommand TacticTest::getCommand()
@@ -34,8 +35,10 @@ RobotCommand TacticTest::getCommand()
 //        rc.fin_pos.dir=a.dir().radian();
 /////////////////////////////////////////////////////////////////////////////////
 
-////going to center//////////////////////////////////////////////////////////////
+////going to center & loking to ball/////////////////////////////////////////////
 rc.fin_pos.loc = {0,0};
+Vector2D a =wm->ball.pos.loc - wm->ourRobot[id].pos.loc;
+rc.fin_pos.dir=a.dir().radian();
 /////////////////////////////////////////////////////////////////////////////////
 
 ////just looking at ball/////////////////////////////////////////////////////////
@@ -44,8 +47,19 @@ rc.fin_pos.loc = {0,0};
 //   rc.fin_pos.dir=a.dir().radian();
 /////////////////////////////////////////////////////////////////////////////////
 
+////just looking at ball/////////////////////////////////////////////////////////
+//   Vector2D a =wm->ball.pos.loc - wm->ourRobot[id].pos.loc;
+//   Vector2D b ;
+//   b = {1,1};
+//   b.setLength(200);
+//   b.setDir(sin(alfa/100)*180);
+//   alfa++;
+//   rc.fin_pos.dir=a.dir().radian();
+//   rc.fin_pos.loc = wm->ball.pos.loc + b;
+/////////////////////////////////////////////////////////////////////////////////
+
     rc.maxSpeed=2;
-    rc.useNav = true;
+    rc.useNav = true;false;
     rc.isBallObs = true;
     rc.isKickObs = true;
     return rc;

@@ -100,7 +100,8 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
     if(err <.6 && err>.2)
     {
-        kp = 3;
+        //if(ci.id == 2) qDebug() <<"a"<<timer;
+        kp = 4;
         kd = 0.08;
     }
 
@@ -108,14 +109,6 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     {
         kp = 3;//.9;
         kd = 0.01;//8;
-
-        //        if(err >.03 && ci.cur_vel.loc.length()<.5)
-        //        {
-        //            kp = 2;
-        //            ki = 0;
-
-        //            kd = 0.01;
-        //        }
     }
 
     derived1 = (ci.cur_pos.loc*0.001 - err0)/(AI_TIMER/1000.0);
@@ -172,23 +165,31 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
             wkd = 0.08;
         }
     }
+    if(err1.length() < .5)
+    {
+        wkp = .55+3*pow(fabs(werr1), 3)*fabs(err1.length());
+        wkd = .2;
+    }
 
-    if(err1.length()<.5)
+    if(err1.length()<.05)
     {
 
 
         if(fabs(werr1) > 0.523)//30deg
         {
-            wkp = 1;
+            if(ci.id == 2) qDebug() <<"C"<<timer;
+            wkp = .9;
             wkd = .4;
         }
         else if(fabs(werr1)>.174)//10deg
         {
-            wkp = .26;
+            if(ci.id == 2) qDebug() <<"D"<<timer;
+            wkp = .09;
             wkd = .4;
         }
         else
         {
+            if(ci.id == 2) qDebug() <<"E"<<timer;
             wkp = .01;
             wki = 0;
             wkd = 0.04;
@@ -196,12 +197,12 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     }
 
 
+   if(ci.id == 2)qDebug()<< wkp <<werr1<< err1.length();
 
 
     wderived1 = (ci.cur_pos.dir - werr0)/3;
     wderived0 = wderived0 + (wderived1 - wderived0)*0.1;
     werr0 = ci.cur_pos.dir;
-
     wu1 = (werr1*wkp) + wintegral*wki - wderived1*wkd;
     if (wu1>MAXROTATIONSPEED) wu1=MAXROTATIONSPEED;
     if (wu1<-MAXROTATIONSPEED) wu1=-MAXROTATIONSPEED;
@@ -209,10 +210,12 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
 
 
 
-    //    if(fabs(wu1-wu1_last) > 0.8)
-    //    {
-    //        wu1 = wu1_last + .8 * sign(wu1);
-    //    }
+
+
+//        if(fabs(wu1-wu1_last) > 0.6)
+//        {
+//            wu1 = wu1_last + .6 * sign(wu1);
+//        }
 
 
     //    LinearSpeed.x = .5;
@@ -229,7 +232,7 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     }
 
 
-    double alpha = ci.cur_pos.dir;+atan(RotationSpeed*0.187);
+    double alpha = ci.cur_pos.dir ;+atan(RotationSpeed*0.187);
     //alpha is the corrected angel whitch handle the problem
     //of nonlinear relation of rotational movement and linear movement
 
@@ -244,14 +247,12 @@ RobotSpeed Controller::calcRobotSpeed_main(ControllerInput &ci)
     ans.VX = RotLinearSpeed.x;
     ans.VY = RotLinearSpeed.y;
     ans.VW = RotationSpeed ;
-    if(fabs(werr1) <0.07 /*&& err1.length()<.02*/) ans.VW=0;//maximum priscision in angel for robot becuse of it/s phisic's limits is 0.07 rad
+    if(fabs(werr1) <0.07  && err1.length()<.002) ans.VW=0;//maximum priscision in angel for robot becuse of it/s phisic's limits is 0.07 rad
     if(err1.length()<.02)
     {
         ans.VX=0;
         ans.VY=0;
     }
-
-    //@kamout
 
     return ans;
 }
