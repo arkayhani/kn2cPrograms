@@ -27,17 +27,17 @@ void MobileObject::timer_seen_timeout()
 }
 void MobileObject::timer_vel_timeout()
 {
-    if(!isValid)
-    {
-        vel.loc = {0, 0};
-        vel.dir = 0;
-        return;
-    }
-    PositionTimeCamera last = vel_postc;
-    vel.loc = vel.loc + (((pos.loc - last.pos.loc) / (time - last.time)) - vel.loc);// filter!!!!
-    vel.dir = (pos.dir - last.pos.dir) / (time - last.time);
-    vel_postc.pos = pos;
-    vel_postc.time = time;
+//    if(!isValid)
+//    {
+//        vel.loc = {0, 0};
+//        vel.dir = 0;
+//        return;
+//    }
+//    PositionTimeCamera last = vel_postc;
+//    vel.loc = vel.loc + (((pos.loc - last.pos.loc) / (time - last.time)) - vel.loc);// filter!!!!
+//    vel.dir = (pos.dir - last.pos.dir) / (time - last.time);
+//    vel_postc.pos = pos;
+//    vel_postc.time = time;
 }
 
 
@@ -90,7 +90,7 @@ void MobileObject::seenAt(vector<Position> p, double t, int c)
     //   pos = res.pos;
     /////////////////////////////////////////
     if(p.size()<1) return;
-    isValid = true;
+    //isValid = true;
     timer_seen.start(timer_seen_interval); //restart
 
     PositionTimeCamera ans;
@@ -111,21 +111,51 @@ void MobileObject::seenAt(vector<Position> p, double t, int c)
             min_i = i;
         }
     }
+    //qDebug() << p.size();
+    //for(int i =0; i>p.size())
 
     ans.pos.loc = p[min_i].loc;
     ans.pos.dir = p[min_i].dir;
 
-    //    if(fabs(pos.dir - p[min_i].dir) < 1) ans.pos.dir = (p[min_i].dir);
-    //    else ans.pos.dir = pos.dir ;
-    //    ans.pos.dir = (p[min_i].dir+pos_predicted.dir)/2 ;
-    //    if (ans.pos.dir > M_PI) ans.pos.dir -= 2 * M_PI;
-    //    if (ans.pos.dir < -M_PI) ans.pos.dir += 2 * M_PI;
+
+    Position pos_buff;
+    int camera_buff;
+
+    if(vel_postc.pos.loc.x == pos.loc.x )
+    {
+        pos_buff = pos;
+        camera_buff =camera;
+        camera = ans.camera;
+        time = ans.time;
+        pos = ans.pos;
+        vel_calc();
+    }
 
 
-    camera = ans.camera;
-    time = ans.time;
-    pos = ans.pos;
-    vel_calc();
+    if((pos.loc - ans.pos.loc).length() < 270 || (pos.loc.x == 0 ) || isValid == false )
+        //if the replacement of  object were smaller than 270 mm
+        //in  15 ms ,that is it's speed is smaller than 4m/s or it is not the start of the game that all locations are at {0.0} or it is not after
+        //while the  object was absent in field
+    {
+        if(ans.camera == 1 && camera_buff == 0 && (pos_buff.loc - ans.pos.loc).length() <60)//if both cameras see the object ,lower camera index shows the location
+            // of tht object for reducing noise of different cammera settings
+        {
+            pos = pos_buff;
+            qDebug()<<"d";
+        }//this filter is foolish,only it is needed when cameras give different locations for objects in their interface!!
+        else
+        {
+            camera = ans.camera;
+            time = ans.time;
+            pos = ans.pos;
+            vel_calc();
+        }
+
+    }
+
+
+    isValid = true;
+
 }
 
 
@@ -143,24 +173,11 @@ void MobileObject::vel_calc()
 
     vel.loc = vel.loc + (((pos.loc - last.pos.loc) / (time - last.time)) - vel.loc)*0.12;
     vel.dir = (pos.dir - last.pos.dir) / (time - last.time );
-    //float pos_dir_diff = (pos.dir - last.pos.dir);
-    //    if (pos_dir_diff > M_PI) pos_dir_diff -= 2 * M_PI;
-    //    if (pos_dir_diff < -M_PI) pos_dir_diff += 2 * M_PI;
 
-    //    float vel_dir_buff = pos_dir_diff / (time - last.time );
-
-    //    //qDebug() << vel_dir_buff-vel.dir;
-    //    if(fabs(vel_dir_buff-vel.dir) < .3)
-    //    {
-    //        vel.dir = vel_dir_buff;
-    //        qDebug() << vel.dir;
-    //    }
 
     pos_predicted.loc = pos.loc + vel.loc * (time - last.time);
     pos_predicted.dir = pos.dir + vel.dir * (time - last.time);
 
-    //    if (pos_predicted.dir > M_PI) pos_predicted.dir -= 2 * M_PI;
-    //    if (pos_predicted.dir < -M_PI) pos_predicted.dir += 2 * M_PI;
 
     vel_postc.pos = pos;
     vel_postc.time = time;
