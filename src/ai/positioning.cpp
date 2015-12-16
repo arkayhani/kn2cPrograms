@@ -10,9 +10,9 @@ QList<Positioning_Struct> Positioning::find_positions(QList<int> ours, bool &isM
 {
     QList<Positioning_Struct> out;
 
-    if( wm->kn->IsInsideRect(wm->ball.pos.loc
+    if( false /*wm->kn->IsInsideRect(wm->ball.pos.loc
                              ,Vector2D(Field::MinX,Field::MaxY)
-                             ,Vector2D(0.33*Field::MinX,Field::MinY)) && wm->defenceMode )
+                             ,Vector2D(0.33*Field::MinX,Field::MinY)) && wm->defenceMode*/ )
     {
         isMatched = true;
         QList<Vector2D> poses;

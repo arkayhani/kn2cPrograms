@@ -3,6 +3,8 @@
 
 #include "play.h"
 #include "QDebug"
+#include "man2man.h"
+#include "positioning.h"
 
 class PlayTest2 : public Play
 {
@@ -12,14 +14,32 @@ public:
     virtual void execute();
     //virtual Tactic* getTactic(int id);
     virtual int enterCondition();
+    void setTactics(int index);
+    void pressing(int ballOwner);
+    int findBallOwner();
+    int findOppReciever();
+    void setPlayer2Keep(int ourR,int oppR);
+    QList<AgentRegion> freeRegions();
 
 private:
-    TacticGoalie* tGolie;
-    TacticTestFriction* tTF;
-    TacticHalt* thalt;
-    TacticTest* tTest;
+    TacticGoalie*   tGolie;
+    TacticDefender* tDefenderLeft;
+    TacticDefender* tDefenderRight;
+    TacticAttacker* tAttackerLeft;
+    TacticAttacker* tAttackerRight;
+    TacticAttacker* tAttackerMid;
+
+    QString game_status;
+
+    Vector2D midPrevious;
+    Vector2D rightPrevious;
+    Vector2D leftPrevious;
 
     virtual void initRole();
+    void coach();
+    void setGameOnPos(int ourR,Vector2D loc);
+    bool roleIsValid(AgentRole role);
+    bool isDefender(int index);
 };
 
 #endif // PLAYTEST2_H

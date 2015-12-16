@@ -13,10 +13,10 @@ RobotCommand TacticPreparing::getCommand()
     RobotCommand rc;
     if(!wm->ourRobot[id].isValid) return rc;
 
-    rc.maxSpeed = 0.5;
+    rc.maxSpeed = 1;
     if( kickPermision )
     {
-        rc.fin_pos.loc = Vector2D(0,0);
+        rc.fin_pos.loc = Vector2D(500,0);
         rc.fin_pos.dir = 0;
 
         if(wm->ball.pos.loc.x > 0 && wm->ball.pos.loc.x < Field::MaxX/2)
@@ -28,7 +28,7 @@ RobotCommand TacticPreparing::getCommand()
 
             if( kick.readyToShoot )
             {
-                rc.kickspeedx = detectKickSpeed(kickType::Shoot, kick.shootSensor);
+                rc.kickspeedx = 255; //detectKickSpeed(kickType::Shoot, kick.shootSensor);
                 kickIt = true;
             }
         }

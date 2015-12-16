@@ -3,7 +3,6 @@
 
 #include "controller_struct.h"
 #include <fstream>
-#include "QDebug"
 using namespace std;
 
 class Controller : public QObject
@@ -30,12 +29,8 @@ private:
     Vector2D u1;
     Vector2D derived0,derived1;
     Vector2D integral;
-    Vector2D last_setpoint ;
-    //kamin
-    Vector2D LinearSpeed;
-    Vector2D LinearSpeed_past;
-    //kamout
-    double wu1,wu1_last,wintegral,werr0,werr1;
+
+    double wu1,wintegral,werr0,werr1;
     double wderived0,wderived1;
 
     int stateCTRL;

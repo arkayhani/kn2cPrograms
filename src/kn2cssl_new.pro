@@ -186,7 +186,13 @@ SOURCES +=	main.cpp \
     ssl/sslvision_double.cpp \
     ai/skill.cpp \
     ai/skill/skillkick.cpp \
-    ai/skill/skilltest.cpp
+    ai/skill/skilltest.cpp \
+    fitnesscalc.cpp \
+    individual.cpp \
+    population.cpp \
+    mythread.cpp \
+    algorithm2.cpp \
+    bee.cpp
 
 HEADERS  += \
     etc/settings.h \
@@ -308,7 +314,14 @@ HEADERS  += \
     ai/skill.h \
     ai/skill/skillkick.h \
     ai/Skills.h \
-    ai/skill/skilltest.h
+    ai/skill/skilltest.h \
+    fitnesscalc.h \
+    individual.h \
+    population.h \
+    mythread.h \
+    algorithm2.h \
+    bee.h \
+    spline.h
 
 FORMS    +=	ui/mainwindow.ui
 

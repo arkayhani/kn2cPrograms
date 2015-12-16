@@ -61,12 +61,12 @@ RobotCommand TacticAttacker::getCommand()
     }
     else if(wm->ourRobot[id].Status == AgentStatus::BlockingRobot)
     {
-//        AngleDeg desiredDeg =  (wm->oppRobot[playerToKeep].pos.loc-Field::ourGoalCenter).dir();
-        AngleDeg desiredDeg ;//=  (wm->oppRobot[playerToKeep].pos.loc-wm->ball.pos.loc).dir();
-        if( wm->ball.isValid )
-            desiredDeg =  (wm->oppRobot[playerToKeep].pos.loc-wm->ball.pos.loc).dir();
-        else
-            desiredDeg =  (wm->oppRobot[playerToKeep].pos.loc-Field::ourGoalCenter).dir();
+        AngleDeg desiredDeg =  (wm->oppRobot[playerToKeep].pos.loc-Field::ourGoalCenter).dir();
+//        AngleDeg desiredDeg ;//=  (wm->oppRobot[playerToKeep].pos.loc-wm->ball.pos.loc).dir();
+//        if( wm->ball.isValid )
+//            desiredDeg =  (wm->oppRobot[playerToKeep].pos.loc-wm->ball.pos.loc).dir();
+//        else
+//            desiredDeg =  (wm->oppRobot[playerToKeep].pos.loc-Field::ourGoalCenter).dir();
 
         Position final;
         final.loc.x = wm->oppRobot[playerToKeep].pos.loc.x - (300*cos(desiredDeg.radian()));

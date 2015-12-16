@@ -237,7 +237,7 @@ OperatingPosition Tactic::BallControl(Vector2D Target, int Prob, int ID, double 
         sensorFault = 0;//reset
         startProbability = RESET;//reset
         ballDisplacement = {0,0} ;//reset
-        qDebug()<<"kickperfalse";
+//        qDebug()<<"kickperfalse";
     }
 
 
@@ -250,35 +250,35 @@ OperatingPosition Tactic::BallControl(Vector2D Target, int Prob, int ID, double 
     {
 
             ////////////////////////////////////////////////////////////
-            if(ballDisplacement==Vector2D(0,0))
-            {
-                ballDisplacement=BallLoc;
-            }
-            if((ballDisplacement-BallLoc).length()>LongDribleDistance)
-            {
-                qDebug()<<"dribblingFault1000mm";
-                dribblingFault1000mm = true;
-                kickPermission=false;
-            }
-            if(((ballDisplacement-BallLoc).length()>LargeDisplacement && !wm->cmgs.gameOn()) || Task== CHIP)
-            {
-                dribblingFault50mm = true;
-                qDebug()<<"dribblingFault50mm";
-                kickPermission=false;
-            }
+//            if(ballDisplacement==Vector2D(0,0))
+//            {
+//                ballDisplacement=BallLoc;
+//            }
+//            if((ballDisplacement-BallLoc).length()>LongDribleDistance)
+//            {
+//                qDebug()<<"dribblingFault1000mm";
+//                dribblingFault1000mm = true;
+//                kickPermission=false;
+//            }
+//            if(((ballDisplacement-BallLoc).length()>LargeDisplacement && !wm->cmgs.gameOn()) || Task== CHIP)
+//            {
+//                dribblingFault50mm = true;
+//                qDebug()<<"dribblingFault50mm";
+//                kickPermission=false;
+//            }
 
-            ////////////////////////////////////////////////////////////
-            if(startProbability<Prob)
-            {
-                startProbability=Prob;
-            }
+//            ////////////////////////////////////////////////////////////
+//            if(startProbability<Prob)
+//            {
+//                startProbability=Prob;
+//            }
 
 
-            if(startProbability-Prob>startProbability*chanceProbLimitForShoot)
-            {
-                probShoot = true;
-                qDebug()<<"ProbabilityShoot";
-            }
+//            if(startProbability-Prob>startProbability*chanceProbLimitForShoot)
+//            {
+//                probShoot = true;
+//                qDebug()<<"ProbabilityShoot";
+//            }
 
             ////////////////////////////////////////////////////////////
             ball_vel_diff =wm->ball.vel.loc - last_ball_vell;
@@ -287,13 +287,13 @@ OperatingPosition Tactic::BallControl(Vector2D Target, int Prob, int ID, double 
 
             //control point >>navigation : OFF
 
-            if(wm->cmgs.gameOn() || Task == CHIP)
+//            if(wm->cmgs.gameOn() || Task == CHIP)
                 TargetDir.setLength( ROBOT_RADIUS- BALL_RADIUS*1.5);
-            else
-            {
-                TargetDir.setLength( ROBOT_RADIUS- BALL_RADIUS/2);
-                qDebug()<<"aiming";
-            }
+//            else
+//            {
+//                TargetDir.setLength( ROBOT_RADIUS- BALL_RADIUS/2);
+//                qDebug()<<"aiming";
+//            }
 
             OP.useNav = false ;
             OP.pos.dir = TargetDir.dir().radian();
@@ -317,25 +317,29 @@ OperatingPosition Tactic::BallControl(Vector2D Target, int Prob, int ID, double 
     //        }
 
 
-            if(DirErr < 5 && robotBallDist < ROBOT_RADIUS+BALL_RADIUS*2)//sensor fault checking
-            {
-                sensorFault++;
-                qDebug()<<"ShootSensorFault:"<<ID<<"n:"<<sensorFault;
-            }
+//            if(DirErr < 5 && robotBallDist < ROBOT_RADIUS+BALL_RADIUS*2)//sensor fault checking
+//            {
+//                sensorFault++;
+//                qDebug()<<"ShootSensorFault:"<<ID<<"n:"<<sensorFault;
+//            }
 
-            if((DirErr < 2 && robotBallDist < ROBOT_RADIUS)
-                    || (((sensorFault>8)//day2//(sensorFault>10)
+            qDebug()<<"------------------------------";
+            qDebug()<<"DirErr when ready for kick : "<<DirErr;
+            qDebug()<<"DistErr when ready for kick : "<<DistErr;
+
+            if(/*(DirErr < 2 && robotBallDist < ROBOT_RADIUS)
+                   /* || (((sensorFault>8)//day2//(sensorFault>10)
                         ||  (probShoot && wm->cmgs.gameOn())
                         || (dribblingFault1000mm && wm->cmgs.gameOn())
                         || (dribblingFault50mm && !wm->cmgs.gameOn())
-                        ) && DirErr < 7 && robotBallDist < ROBOT_RADIUS+BALL_RADIUS))
+                        ) && */DirErr < 7 && robotBallDist < ROBOT_RADIUS+BALL_RADIUS)//)
             {
 
                 sensorFault=0;
                 OP.readyToShoot = true;
                 timer_reset=false ;
                 shoot_sensor = false ;
-                qDebug()<<"NONSensorShoot";
+                qDebug()<<"Kick It";
 
             }
 

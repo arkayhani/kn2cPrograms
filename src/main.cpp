@@ -3,7 +3,6 @@
 // http://www.possibility.com/Cpp/CppCodingStandard.html
 // http://geosoft.no/development/cppstyle.html
 
-
 #include <QApplication>
 #include <signal.h>
 #include <stdlib.h>
@@ -11,20 +10,13 @@
 #include <iostream>
 #include "mainwindow.h"
 #include "soccer.h"
-using namespace std;
+#include "bee.h"
 
-void SignalHandler(int)
-{
-    // save current state here
-    // and then ...
-    qDebug() << "Segmentation Fault !!!";
-    exit(1);
-}
+using namespace std;
 
 int main(int argc, char *argv[])
 {
-    //signal(SIGSEGV, SignalHandler);
-    //signal(SIGALRM, SignalHandler);
+
 
     QCoreApplication::setOrganizationName("KN2C");
     QCoreApplication::setOrganizationDomain("www.kn2c.ir");
@@ -38,10 +30,28 @@ int main(int argc, char *argv[])
     cout << "Version 7.0.0" << endl;
     cout << endl;
 
+
     Soccer soccer;
+   soccer.wm->mark_coef[1]=50;
+   soccer.wm->pos_coef[2]=50;
+   soccer.wm->pos_coef[3]=50;
+   soccer.wm->pos_coef[4]=50;
+   soccer.wm->pos_coef[1]=50;
+
+   soccer.wm->mark_coef[2]=50;
+   soccer.wm->mark_coef[3]=50;
+   soccer.wm->mark_coef[4]=50;
+
 
     MainWindow w(&soccer);
+   MyThread thread1(&soccer);
 
+  thread1.start();
+
+
+////////////////////////////////
+
+  cout << "Computer & Electrical Eng. Faculty" << endl;
     bool gui = true;
     if(argc > 1)
         if(strcmp(argv[1], "nogui") == 0)

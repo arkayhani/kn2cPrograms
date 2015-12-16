@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+ //int MyThread::a=50;
 
 MainWindow::MainWindow(Soccer *soccer, QWidget *parent) :
     QMainWindow(parent),
@@ -23,6 +24,7 @@ MainWindow::MainWindow(Soccer *soccer, QWidget *parent) :
     ui->debug_output_type->addItems(output_types);
     this->on_btnLoadVars_clicked();
     connect(&timer, SIGNAL(timeout()), this, SLOT(timer_timeout()));
+
     timer.start(100);
 }
 
@@ -335,25 +337,26 @@ void MainWindow::timer_timeout()
 
     //-----Coefficients----------------
     sc->wm->mark_coef[0] = 0;
-    sc->wm->mark_coef[1] = ui->spnMarC1->value();
+   // sc->wm->mark_coef[1] = ui->spnMarC1->value();
+    //sc->wm->mark_coef[1] =MyThread::a;
     ui->txtMarC1->setText(QString::number(sc->wm->mark_coef[1]));
-    sc->wm->mark_coef[2] = ui->spnMarC2->value();
+   // sc->wm->mark_coef[2] = ui->spnMarC2->value();
     ui->txtMarC2->setText(QString::number(sc->wm->mark_coef[2]));
-    sc->wm->mark_coef[3] = ui->spnMarC3->value();
+   // sc->wm->mark_coef[3] = ui->spnMarC3->value();
     ui->txtMarC3->setText(QString::number(sc->wm->mark_coef[3]));
-    sc->wm->mark_coef[4] = ui->spnMarC4->value();
+   // sc->wm->mark_coef[4] = ui->spnMarC4->value();
     ui->txtMarC4->setText(QString::number(sc->wm->mark_coef[4]));
     sc->wm->mark_coef[5] = ui->spnMarC5->value();
     ui->txtMarC5->setText(QString::number(sc->wm->mark_coef[5]));
 
     sc->wm->pos_coef[0] = 0;
-    sc->wm->pos_coef[1] = ui->spnPosC1->value();
+   // sc->wm->pos_coef[1] = ui->spnPosC1->value();
     ui->txtPosC1->setText(QString::number(sc->wm->pos_coef[1]));
-    sc->wm->pos_coef[2] = ui->spnPosC2->value();
+    //sc->wm->pos_coef[2] = ui->spnPosC2->value();
     ui->txtPosC2->setText(QString::number(sc->wm->pos_coef[2]));
-    sc->wm->pos_coef[3] = ui->spnPosC3->value();
+    //sc->wm->pos_coef[3] = ui->spnPosC3->value();
     ui->txtPosC3->setText(QString::number(sc->wm->pos_coef[3]));
-    sc->wm->pos_coef[4] = ui->spnPosC4->value();
+   // sc->wm->pos_coef[4] = ui->spnPosC4->value();
     ui->txtPosC4->setText(QString::number(sc->wm->pos_coef[4]));
     sc->wm->pos_coef[5] = ui->spnPosC5->value();
     ui->txtPosC5->setText(QString::number(sc->wm->pos_coef[5]));
@@ -491,6 +494,7 @@ void MainWindow::on_btnLoadVars_clicked()
     ui->spnvar9->setValue(var9.toInt());
 
     QString var10 = s.Get("vars", "var10");
+//    QString var10 = "10";
     ui->txtMarC1->setText(var10);
     ui->spnMarC1->setValue(var10.toInt());
 
@@ -529,4 +533,31 @@ void MainWindow::on_btnLoadVars_clicked()
     QString var19 = s.Get("vars", "var19");
     ui->txtPosC5->setText(var19);
     ui->spnPosC5->setValue(var19.toInt());
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+FitnessCalc::flag1=ui->checkBox_4->isChecked();
+FitnessCalc::flag2=ui->checkBox->isChecked();
+ FitnessCalc::def1=pow(100,ui->lineEdit_4->text().toInt());
+ FitnessCalc::def2=pow(100,ui->lineEdit_5->text().toInt());
+ FitnessCalc::def3=pow(100,ui->lineEdit_6->text().toInt());
+FitnessCalc::def4=pow(100,ui->lineEdit_7->text().toInt());
+FitnessCalc::def5=pow(100,ui->lineEdit_17->text().toInt());
+FitnessCalc::att1=pow(100,ui->lineEdit_8->text().toInt());
+ FitnessCalc::att2=pow(100,ui->lineEdit_9->text().toInt());
+ FitnessCalc::att3=pow(100,ui->lineEdit_10->text().toInt());
+FitnessCalc::att4=pow(100,ui->lineEdit_11->text().toInt());
+FitnessCalc::att5=pow(100,ui->lineEdit_18->text().toInt());
+FitnessCalc::aproxrange=ui->lineEdit_3->text().toInt();
+FitnessCalc::aproxerr=ui->lineEdit_16->text().toDouble();
+FitnessCalc::aprox=ui->checkBox_3->isChecked();
+MyThread::gennum=ui->lineEdit->text().toInt();
+MyThread::popnum=ui->lineEdit_2->text().toInt();
+qDebug()<<"att1 and att2 and att3 and att4"<<QString::number(FitnessCalc::att1)<<QString::number(FitnessCalc::att2)<<QString::number(FitnessCalc::att3)<<QString::number(FitnessCalc::att4);
+qDebug()<<"def1 and def2 and def3 and def4"<<QString::number(FitnessCalc::def1)<<QString::number(FitnessCalc::def2)<<QString::number(FitnessCalc::def3)<<QString::number(FitnessCalc::def4);
+
+MyThread::start2=true;
+ui->pushButton->setEnabled(false);
+//pow10()
 }

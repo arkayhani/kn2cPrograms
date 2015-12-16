@@ -5,6 +5,7 @@
 #include <QTimer>
 #include "soccer.h"
 #include "renderarea.h"
+#include "mythread.h"
 
 namespace Ui {
     class MainWindow;
@@ -29,6 +30,8 @@ private slots:
     void timer_timeout();
     void on_btnSaveVars_clicked();
     void on_btnLoadVars_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
